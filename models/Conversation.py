@@ -1,5 +1,8 @@
 from datetime import datetime
-from models import User, Session, Message, Metadata
+from .User import User
+from .Session import Session
+from .Message import Message
+from .Metadata import Metadata
 
 from mongoengine import Document, ListField, ReferenceField, DateField
 
