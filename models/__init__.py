@@ -3,4 +3,8 @@ from .Session import Session
 from .Conversation import Conversation
 
 
-__all__ = ["User"]
+__all__ = ["User",
+           "Session",
+           "Conversation",
+           
+           ]
