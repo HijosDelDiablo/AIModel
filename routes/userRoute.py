@@ -1,11 +1,7 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
 from services import UserService
+from dto import CreateUserDTO
 
-class CreateUserRequest(BaseModel):
-    username: str
-    email: str
-    age: int
 
 class UserRoute:
     def __init__(self, user_service: UserService):
@@ -22,7 +18,7 @@ class UserRoute:
             print("Error en /users:", e)
             return {"error": str(e)}
 
-    async def create_user(self, request: CreateUserRequest):
+    async def create_user(self, request: CreateUserDTO):
         try:
             user = self.user_service.create_user(request.username, request.email, request.age)
             return {"user": user}
