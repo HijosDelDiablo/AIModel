@@ -18,3 +18,12 @@ class UserService:
         user = User(username=username, email=email, age=age)
         user.save()
         return user.to_dict()
+    
+    def get_user_by_id(self, user_id: str):
+        try:
+            user = User.objects.get(id=user_id)
+            return user.to_dict() if hasattr(user, 'to_dict') else user.to_mongo().to_dict()
+        except User.DoesNotExist:
+            raise ValueError("User not found")
+        except Exception as e:
+            raise Exception(f"Error getting user: {str(e)}")
