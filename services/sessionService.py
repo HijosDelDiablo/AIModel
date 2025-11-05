@@ -1,6 +1,7 @@
 from mongoengine import connect, disconnect
 from models.Session import Session
 from models.User import User
+from models import Message
 
 class SessionService:
     def __init__(self):
@@ -8,11 +9,13 @@ class SessionService:
         disconnect()
         connect('AI-ModelDB', host='mongodb://localhost:27017')
 
-    def create_session(self, user_id: str):
+    def create_session(self, user_id: str, messageLocal: str):
         # Buscar el usuario
         try:
             user = User.objects.get(id=user_id)
-            session = Session(user=user)
+            participantLocal = "user"
+            message = Message(content=messageLocal, participant=participantLocal)
+            session = Session(user=user, messages=[message])
             session.save()
             return session.to_dict() if hasattr(session, 'to_dict') else session.to_mongo().to_dict()
         except User.DoesNotExist:
@@ -42,3 +45,15 @@ class SessionService:
             raise ValueError("Session not found")
         except Exception as e:
             raise Exception(f"Error getting session: {str(e)}")
+
+    def updateSession(self, session_id: str, messageLocal: str, participantLocal: str = 'bot'):
+        try:
+            session = Session.objects.get(id=session_id)
+            message = Message(content=messageLocal, participant=participantLocal)
+            session.messages.append(message)
+            session.save()
+            return session.to_dict() if hasattr(session, 'to_dict') else session.to_mongo().to_dict()
+        except Session.DoesNotExist:
+            raise ValueError("Session not found")
+        except Exception as e:
+            raise Exception(f"Error updating session: {str(e)}")
