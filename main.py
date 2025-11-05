@@ -1,14 +1,17 @@
-from langchain_ollama import OllamaLLM
-from database.connectionMongo import get_database
-from templates.userTemplate import user_chain
-def main():
-    db = get_database()
-    
-    llm = OllamaLLM(model="mistral", base_url="http://localhost:11434")
-    
-    userChainInstance = user_chain(llm, question="Cuantos usuarios hay en la base de datos?", knowledge_base="usercount: 1500")
-    print("Ejecutando la cadena de usuario...")
-    print(userChainInstance)
+from fastapi import FastAPI
+from routes import userRoute, sessionRoute
+from services import UserService, SessionService
+from routes.AI.aiRoute import router as ai_router
 
-if __name__ == "__main__":
-    main()
+
+app = FastAPI()
+
+user_service = UserService()
+user_route = userRoute.UserRoute(user_service)
+app.include_router(user_route.router)
+
+session_service = SessionService()
+session_route = sessionRoute.SessionRoute(session_service)
+app.include_router(session_route.router)
+
+app.include_router(ai_router)
