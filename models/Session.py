@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from mongoengine import Document, StringField, EmailField, IntField, DateField, ReferenceField, ListField
+from mongoengine import Document, StringField, EmailField, IntField, DateField, ReferenceField, ListField, EmbeddedDocumentField
 
 from .Message import  Message
 from .Metadata import Metadata
@@ -9,7 +9,7 @@ from .User import User
 class Session(Document):
     # RELATIONS
     user = ReferenceField(User)
-    messages = ListField(ReferenceField(Message), required=False, default=[])
+    messages = ListField(EmbeddedDocumentField(Message), required=False, default=[])
     metadata = ReferenceField(Metadata, required=False, default=None)
 
 

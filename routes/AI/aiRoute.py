@@ -12,11 +12,12 @@ async def send_message(
     user_service: UserService = Depends(UserService),
     session_service: SessionService = Depends(SessionService)
 ):
+    
     result = initial_chat_chain(
         user_id,
         text,
         session_id,
         user_service=user_service,
-        session_service=session_service
+        session_service=session_service,
     )
     return result

@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from mongoengine import Document, StringField, DateTimeField
+from mongoengine import Document, StringField, DateTimeField, EmbeddedDocument
 
 
-class Message(Document):
+class Message(EmbeddedDocument):
 
     participant = StringField(required=True)    # user or bot
     content = StringField(required=True)  # message text
