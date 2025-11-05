@@ -6,7 +6,7 @@ def create_user_template(question: str, knowledge_base: str) -> PromptTemplate:
     template="""Eres un modelo que ayuda a usuario a responder preguntas
     sencillas con limitaciones del:\n\n{question}\n\n
     Con la siguiente información:\n\n{knowledge_base}, si no sabes la respuesta,
-    di "No lo sé". trata de ser conciso y claro. minimo 8 palabras.""",
+    di "No lo sé". trata de ser conciso y claro. minimo 10 palabras.""",
     )
     return userTemplate
 

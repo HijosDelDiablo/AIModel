@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from services import UserService, SessionService
-from aiFlow_service.initChat_service import initial_chat_chain
+from aiFlow_service import initial_chat_chain
 
 router = APIRouter()
 
@@ -20,7 +20,3 @@ async def send_message(
         session_service=session_service
     )
     return result
-
-class AIRoute:
-    def __init__(self):
-        pass
