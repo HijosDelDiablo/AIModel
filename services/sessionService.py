@@ -46,9 +46,11 @@ class SessionService:
         except Exception as e:
             raise Exception(f"Error getting session: {str(e)}")
 
-    def updateSession(self, session_id: str, messageLocal: str, participantLocal: str = 'bot'):
+    def updateSession(self, session_id: str, messageLocal: str, participantLocal: str ):
         try:
             session = Session.objects.get(id=session_id)
+            if participantLocal not in ['user', 'bot']:
+                raise ValueError("Invalid participant type")
             message = Message(content=messageLocal, participant=participantLocal)
             session.messages.append(message)
             session.save()
