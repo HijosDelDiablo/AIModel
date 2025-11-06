@@ -1,4 +1,4 @@
 from .user import CreateUserDTO
 from .session import CreateSessionDTO
-
-__all__ = ["CreateUserDTO", "CreateSessionDTO"]
+from .conversation import ConversationContinueDto
+__all__ = ["CreateUserDTO", "CreateSessionDTO", "ConversationContinueDto"]

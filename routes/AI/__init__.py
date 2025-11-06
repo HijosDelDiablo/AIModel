@@ -1,3 +1,2 @@
-from .aiRoute import router
-
-__all__ = ['router']    
+from .aiRoute import  AIRoute
+__all__ = ['AIRoute',]
