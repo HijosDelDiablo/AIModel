@@ -4,10 +4,15 @@ from mongoengine import connect, disconnect
 from services import UserService, SessionService
 from templates.userTemplate import user_chain 
 from dto import ConversationContinueDto
+
+# ai model imports
+from ai_utils import ConnectionModelStandard
+
+
 class ContinuousChatService:
     def __init__(self):
-        disconnect()
-        connect('AI-ModelDB', host='mongodb://localhost:27017')
+        self.connection_model = ConnectionModelStandard()
+
     def continue_chat_chain(
         self,
         data: ConversationContinueDto,
@@ -24,7 +29,7 @@ class ContinuousChatService:
 
             session = session_service.updateSession(session_id=data.session_id, messageLocal=data.messages, participantLocal='user')
 
-            llm = OllamaLLM(model="mistral", base_url="http://localhost:11434")
+            llm = self.connection_model.get_llm()
             respuesta = user_chain(llm, data.messages, knowledge_base="Continuing the conversation based on previous context.")
             session = session_service.updateSession(session_id=data.session_id, messageLocal=respuesta, participantLocal='bot')
             return {
