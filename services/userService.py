@@ -1,18 +1,24 @@
 
 
-from mongoengine import connect, disconnect
 from models.User import User
 
-class UserService:
-    def __init__(self):
-        # Conectar a MongoDB
-        disconnect()
-        connect('AI-ModelDB', host='mongodb://localhost:27017')
-        
+# import utuls to connection with my dn
+from database import ConnectionMongoStandard
 
+class UserService:
+    # inject database connection
+    def __init__(self):
+        self.connection = ConnectionMongoStandard()
+
+    # service methods
+        
     def get_all_users(self):
-        users = User.objects()
-        return [user.to_dict() for user in users]
+        try:
+
+            users = User.objects()
+            return [user.to_dict() for user in users]
+        except Exception as e:
+            raise Exception(f"Error getting users: {str(e)}")
 
     def create_user(self, username: str, email: str, age: int):
         user = User(username=username, email=email, age=age)

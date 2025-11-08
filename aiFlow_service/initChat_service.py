@@ -7,12 +7,13 @@ from langchain_ollama import OllamaLLM
 
 from utils import convert_objectid
 
+from ai_utils import ConnectionModelStandard
 
 class InitChatService:
     
     def __init__(self):
-        disconnect()
-        connect('AI-ModelDB', host='mongodb://localhost:27017')
+        # Cargar credenciales desde .env y conectar con autenticación
+        self.connection_model = ConnectionModelStandard()
 
     
 
@@ -38,7 +39,7 @@ class InitChatService:
                 session_id = session["_id"]
 
             # Invocar el modelo IA para responder el primer mensaje
-            llm = OllamaLLM(model="mistral", base_url="http://localhost:11434")
+            llm = self.connection_model.get_llm()
             respuesta = user_chain(llm, text, knowledge_base="Bienvenido a la conversación!")
             newAnswer = session_service.updateSession(session_id=session_id, messageLocal=respuesta, participantLocal='bot')
 

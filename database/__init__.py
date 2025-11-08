@@ -1,2 +1,2 @@
-from .connectionMongo import get_database
-__all__ = ["get_database"]
+from .connectionMongo import ConnectionMongoStandard
+__all__ = ["ConnectionMongoStandard"]
