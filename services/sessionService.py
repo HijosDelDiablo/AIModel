@@ -2,13 +2,15 @@ from mongoengine import connect, disconnect
 from models.Session import Session
 from models.User import User
 from models import Message
+from dotenv import load_dotenv
 
+
+# import utuls to connection with my dn
+from database import ConnectionMongoStandard
 class SessionService:
     def __init__(self):
         # Conectar a MongoDB
-        disconnect()
-        connect('AI-ModelDB', host='mongodb://localhost:27017')
-
+        self.connection = ConnectionMongoStandard()
     def create_session(self, user_id: str, messageLocal: str):
         # Buscar el usuario
         try:
