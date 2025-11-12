@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import os
 
 class ConnectionModelStandard:
-    def __init__(self):
+    def __init__(self): # ollama 
         load_dotenv()
         self.username = os.getenv("MODEL_BASE")
         self.uri_base_model = os.getenv("URI_BASE_MODEL")
